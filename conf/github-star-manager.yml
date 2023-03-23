@@ -2,9 +2,6 @@ common:
   # run mode which will be used by gin, could be release or debug
   run_mode: release
   profiling: false
-github_auth:
-  # your github token to fetch stars
-  token: your-github-token
 database:
   # path for sqlite
   path: ./

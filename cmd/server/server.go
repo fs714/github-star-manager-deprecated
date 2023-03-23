@@ -23,7 +23,6 @@ var (
 	httpPort     string
 	readTimeout  int
 	writeTimeout int
-	githubToken  string
 	dbPath       string
 	logFile      string
 	logLevel     string
@@ -66,10 +65,6 @@ func InitStartCmd() {
 		"Http server write timeout")
 	config.Viper.BindPFlag("http_server.write_timeout", StartCmd.Flags().Lookup("write-timeout"))
 	config.Viper.BindEnv("http_server.write_timeout", "HTTP_WRITE_TIMEOUT")
-
-	StartCmd.Flags().StringVarP(&githubToken, "token", "t", config.DefaultConfig.GithubAuth.Token, "Github token")
-	config.Viper.BindPFlag("github_auth.token", StartCmd.Flags().Lookup("token"))
-	config.Viper.BindEnv("github_auth.token", "GITHUB_TOKEN")
 
 	StartCmd.Flags().StringVarP(&dbPath, "db-path", "", config.DefaultConfig.Database.Path, "Path for sqlite")
 	config.Viper.BindPFlag("database.path", StartCmd.Flags().Lookup("db-path"))

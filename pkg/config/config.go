@@ -14,9 +14,6 @@ func GetDefaultConfig() Configuration {
 			RunMode:   "release",
 			Profiling: false,
 		},
-		GithubAuth: GithubAuth{
-			Token: "",
-		},
 		Database: Database{
 			Path: "./",
 		},
@@ -43,10 +40,6 @@ type Common struct {
 	Profiling bool   `mapstructure:"profiling"`
 }
 
-type GithubAuth struct {
-	Token string `mapstructure:"token"`
-}
-
 type Database struct {
 	Path string `mapstructure:"path"`
 }
@@ -70,7 +63,6 @@ type HttpServer struct {
 
 type Configuration struct {
 	Common     Common     `mapstructure:"common"`
-	GithubAuth GithubAuth `mapstructure:"github_auth"`
 	Database   Database   `mapstructure:"database"`
 	Logging    Logging    `mapstructure:"logging"`
 	HttpServer HttpServer `mapstructure:"http_server"`
