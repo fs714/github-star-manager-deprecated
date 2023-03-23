@@ -6,18 +6,18 @@ import (
 	"testing"
 )
 
-func TestGetStarts(t *testing.T) {
-	starred, err := GetStarts("fs714")
+func TestGetStarredRepos(t *testing.T) {
+	repos, err := GetStarredRepos("fs714")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 		t.FailNow()
 	}
 
-	starredJson, err := json.MarshalIndent(starred, "", "  ")
+	reposJson, err := json.MarshalIndent(repos, "", "  ")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 		t.FailNow()
 	}
 
-	fmt.Println(string(starredJson))
+	fmt.Println(string(reposJson))
 }

@@ -7,23 +7,23 @@ import (
 	"github.com/pkg/errors"
 )
 
-func GetStarts(user string) ([]*github.StarredRepository, error) {
+func GetStarredRepos(user string) ([]*github.StarredRepository, error) {
 	ctx := context.Background()
 
 	client := github.NewClient(nil)
 
-	starred, _, err := client.Activity.ListStarred(ctx, user, nil)
+	repos, _, err := client.Activity.ListStarred(ctx, user, nil)
 	if err != nil {
 		if _, ok := err.(*github.RateLimitError); ok {
-			err = errors.New("failed to get github stars: hit github rate limit")
+			err = errors.New("failed to get github starred repos: hit github rate limit")
 			return nil, err
 		} else if _, ok := err.(*github.AcceptedError); ok {
-			err = errors.New("failed to get github stars: scheduled on GitHub side")
+			err = errors.New("failed to get github starred repos: scheduled on GitHub side")
 			return nil, err
 		} else {
-			return nil, errors.Wrap(err, "failed to get github stars")
+			return nil, errors.Wrap(err, "failed to get github starred repos")
 		}
 	}
 
-	return starred, nil
+	return repos, nil
 }

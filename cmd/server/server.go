@@ -11,6 +11,8 @@ import (
 	"time"
 
 	"github.com/fs714/github-star-manager/api"
+	"github.com/fs714/github-star-manager/db/sqlite"
+	"github.com/fs714/github-star-manager/db/sqlite/sqlite_tables"
 	"github.com/fs714/github-star-manager/pkg/config"
 	"github.com/fs714/github-star-manager/pkg/utils/log"
 	"github.com/fs714/github-star-manager/pkg/utils/version"
@@ -114,6 +116,19 @@ func initLog() {
 func startServer() (err error) {
 	log.Infow("start http server", "BaseVersion", version.BaseVersion, "GitVersion", version.GitVersion)
 
+	log.Infow("initialize database", "path", config.Config.Database.Path)
+	err = sqlite.InitSqlxFromConfig()
+	if err != nil {
+		log.Errorf("failed to initialize database:\n%+v", err)
+		return
+	}
+
+	err = sqlite_tables.CreateAllTables()
+	if err != nil {
+		log.Errorf("failed to create database tables:\n%+v", err)
+		return
+	}
+
 	ctx, cancel := context.WithCancel(context.Background())
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
@@ -141,6 +156,7 @@ func startServer() (err error) {
 					err = nil
 				} else {
 					log.Errorf("failed to start http server:\n%+v", err)
+					return
 				}
 			}
 		}()
