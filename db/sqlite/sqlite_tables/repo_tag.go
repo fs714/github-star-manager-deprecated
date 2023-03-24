@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fs714/github-star-manager/db/sqlite"
+	"github.com/oklog/ulid/v2"
 	"github.com/pkg/errors"
 )
 
@@ -92,6 +93,10 @@ func GetRepoTagsByUser(user string) (repoTags []RepoTag, err error) {
 }
 
 func InsertRepoTag(repoTag RepoTag) (err error) {
+	if repoTag.Id == "" {
+		repoTag.Id = ulid.Make().String()
+	}
+
 	sql := fmt.Sprintf("INSERT INTO %s %s VALUES %s",
 		RepoTagTableName, GetInsertColumnsSql(RepoTagFields), GetInsertNamedValuesSql(RepoTagFields))
 	_, err = sqlite.DBSqlx.NamedExec(sql, repoTag)

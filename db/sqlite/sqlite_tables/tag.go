@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fs714/github-star-manager/db/sqlite"
+	"github.com/oklog/ulid/v2"
 	"github.com/pkg/errors"
 )
 
@@ -119,6 +120,10 @@ func GetTagByNameAndUser(name string, user string) (tag Tag, err error) {
 }
 
 func InsertTag(tag Tag) (err error) {
+	if tag.Id == "" {
+		tag.Id = ulid.Make().String()
+	}
+
 	sql := fmt.Sprintf("INSERT INTO %s %s VALUES %s",
 		TagTableName, GetInsertColumnsSql(TagFields), GetInsertNamedValuesSql(TagFields))
 	_, err = sqlite.DBSqlx.NamedExec(sql, tag)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fs714/github-star-manager/db/sqlite"
+	"github.com/oklog/ulid/v2"
 	"github.com/pkg/errors"
 )
 
@@ -124,23 +125,15 @@ func GetRepoByNameAndUser(name string, user string) (repo Repo, err error) {
 }
 
 func InsertRepo(repo Repo) (err error) {
+	if repo.Id == "" {
+		repo.Id = ulid.Make().String()
+	}
+
 	sql := fmt.Sprintf("INSERT INTO %s %s VALUES %s",
 		RepoTableName, GetInsertColumnsSql(RepoFields), GetInsertNamedValuesSql(RepoFields))
 	_, err = sqlite.DBSqlx.NamedExec(sql, repo)
 	if err != nil {
 		err = errors.Wrap(err, "failed to insert repo")
-		return
-	}
-
-	return
-}
-
-func InsertRepos(repos []Repo) (err error) {
-	sql := fmt.Sprintf("INSERT INTO %s %s VALUES %s",
-		RepoTableName, GetInsertColumnsSql(RepoFields), GetInsertNamedValuesSql(RepoFields))
-	_, err = sqlite.DBSqlx.NamedExec(sql, repos)
-	if err != nil {
-		err = errors.Wrap(err, "failed to insert repos")
 		return
 	}
 

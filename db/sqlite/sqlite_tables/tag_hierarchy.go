@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fs714/github-star-manager/db/sqlite"
+	"github.com/oklog/ulid/v2"
 	"github.com/pkg/errors"
 )
 
@@ -118,6 +119,10 @@ func GetTagHierarchysByUserAndChildID(user string, childID string) (tagHierarchy
 }
 
 func InsertTagHierarchy(tagHierarchy TagHierarchy) (err error) {
+	if tagHierarchy.Id == "" {
+		tagHierarchy.Id = ulid.Make().String()
+	}
+
 	sql := fmt.Sprintf("INSERT INTO %s %s VALUES %s",
 		TagHierarchyTableName, GetInsertColumnsSql(TagHierarchyFields), GetInsertNamedValuesSql(TagHierarchyFields))
 	_, err = sqlite.DBSqlx.NamedExec(sql, tagHierarchy)
