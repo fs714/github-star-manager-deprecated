@@ -1,5 +1,5 @@
-import ReactImg from "../../public/react.svg"
-import VitImg from "../../public/vite.svg"
-import GithubImg from "../../public/github.svg"
+import ReactImg from "./react.svg"
+import VitImg from "./vite.svg"
+import GithubImg from "./github.svg"
 
 export {ReactImg, VitImg, GithubImg}

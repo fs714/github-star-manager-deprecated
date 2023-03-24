@@ -23,7 +23,7 @@ export default function ChangeLanguage(): JSX.Element {
             }}
         >
             <a onClick={(e) => e.preventDefault()}>
-                <Space className="font-bold px-6">
+                <Space className="font-bold text-white/[.65] hover:text-white">
                     {localLanguage === "en" ? "English" : "中文"}
                 </Space>
             </a>

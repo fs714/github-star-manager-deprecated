@@ -1,5 +1,5 @@
 import { Layout, Menu, Tooltip } from "antd";
-import { ProfileOutlined, BookOutlined, SettingOutlined, TranslationOutlined, ToolTwoTone } from "@ant-design/icons"
+import { ProfileOutlined, BookOutlined, SettingOutlined } from "@ant-design/icons"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReactImg, GithubImg } from "../assets";
@@ -31,12 +31,12 @@ export default function AppLayout(): JSX.Element {
     }
 
     return (
-        <Layout className="bg-gray-100">
-            <Header className="flex justify-between h-12 leading-[3rem] px-6">
+        <Layout className="relative flex h-screen w-screen flex-col bg-gray-100">
+            <Header className="flex h-12 w-screen items-center justify-between px-6 leading-[3rem]">
                 <div className="flex justify-start">
-                    <div className="pr-6 py-2">
+                    <div className="flex items-center bg-inherit">
                         <Link to="/">
-                            <img src={ReactImg} />
+                            <img src={ReactImg} className="flex" />
                         </Link>
                     </div>
                     <div>
@@ -45,7 +45,7 @@ export default function AppLayout(): JSX.Element {
                             mode="horizontal"
                             selectedKeys={selectedKey}
                             onSelect={onSelect}
-                            className="font-bold h-12"
+                            className="h-12 bg-inherit px-6 font-bold"
                             items={[
                                 {
                                     key: "/repositories",
@@ -61,14 +61,14 @@ export default function AppLayout(): JSX.Element {
                         />
                     </div>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-start">
                     <div>
                         <Menu
                             theme="dark"
                             mode="horizontal"
                             selectedKeys={selectedKey}
                             onSelect={onSelect}
-                            className="font-bold h-12"
+                            className="h-12 bg-inherit pr-3 font-bold"
                             items={[
                                 {
                                     key: "/settings",
@@ -78,23 +78,23 @@ export default function AppLayout(): JSX.Element {
                             ]}
                         />
                     </div>
-                    <div>
+                    <div className="bg-inherit pr-6">
                         <ChangeLanguage />
                     </div>
-                    <div className="py-2">
+                    <div className="flex items-center bg-inherit">
                         <Tooltip title="Github">
                             <Link to="https://github.com/" target="_blank">
-                                <img src={GithubImg} className="h-8 w-8" />
+                                <img src={GithubImg} className="flex h-8 w-8" />
                             </Link>
                         </Tooltip>
                     </div>
                 </div>
             </Header>
-            <Content className="bg-white m-3 min-h-[80vh]">
+            <Content className="grow bg-white m-3">
                 <Outlet />
             </Content>
-            <Footer className="text-center">
-                FS714 Design ©2023 Created by FS714
+            <Footer className="text-center mb-2 p-1 font-bold text-black/[.45]">
+                Copyright © 2023 Fs714 Labs
             </Footer>
         </Layout>
     )
