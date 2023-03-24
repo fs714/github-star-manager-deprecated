@@ -4,7 +4,6 @@ import Tags from "../pages/tags"
 import AppLayout from "../layout";
 import Page403 from "../pages/errorPages/403";
 import Page404 from "../pages/errorPages/404";
-import Settings from "../pages/settings";
 
 export default function AppRouter(): JSX.Element {
     return (
@@ -14,7 +13,6 @@ export default function AppRouter(): JSX.Element {
                     <Route path="/" element={<Repositories />} />
                     <Route path="/repositories" element={<Repositories />} />
                     <Route path="/tags" element={<Tags />} />
-                    <Route path="/settings" element={<Settings />} />
                     <Route path="403" element={<Page403 />} />
                     <Route path="404" element={<Page404 />} />
                     <Route path="*" element={<Navigate to="404" />} />
