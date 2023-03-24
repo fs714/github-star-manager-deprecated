@@ -1,8 +1,10 @@
-import { Layout, Menu } from "antd";
-import { ProfileOutlined, BookOutlined, SettingOutlined, GithubOutlined } from "@ant-design/icons"
+import { Layout, Menu, Tooltip } from "antd";
+import { ProfileOutlined, BookOutlined, SettingOutlined, TranslationOutlined, ToolTwoTone } from "@ant-design/icons"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReactImg, GithubImg } from "../assets";
+import { useTranslation } from "react-i18next";
+import ChangeLanguage from "../components/changeLanguage";
 
 
 const { Header, Content, Footer } = Layout
@@ -11,6 +13,8 @@ export default function AppLayout(): JSX.Element {
     const navigate = useNavigate()
     const location = useLocation()
     const [selectedKey, setSelectedKey] = useState<string[]>([])
+
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (location.pathname === "/") {
@@ -28,54 +32,61 @@ export default function AppLayout(): JSX.Element {
 
     return (
         <Layout className="bg-gray-100">
-            <Header className="h-12 leading-[3rem] px-6">
-                <div>
-                    <div className="float-left pr-6 py-2">
+            <Header className="flex justify-between h-12 leading-[3rem] px-6">
+                <div className="flex justify-start">
+                    <div className="pr-6 py-2">
                         <Link to="/">
                             <img src={ReactImg} />
                         </Link>
                     </div>
-                    <div className="float-left">
+                    <div>
                         <Menu
                             theme="dark"
                             mode="horizontal"
                             selectedKeys={selectedKey}
                             onSelect={onSelect}
-                            className="float-left font-bold h-12"
+                            className="font-bold h-12"
                             items={[
                                 {
                                     key: "/repositories",
-                                    label: "Repository",
+                                    label: t("layout.REPOSITORY"),
                                     icon: <ProfileOutlined />
                                 },
                                 {
                                     key: "/tags",
-                                    label: "Tags",
+                                    label: t("layout.TAGS"),
                                     icon: <BookOutlined />
                                 }
                             ]}
                         />
                     </div>
-                    <div className="float-right">
+                </div>
+                <div className="flex justify-end">
+                    <div>
                         <Menu
                             theme="dark"
                             mode="horizontal"
                             selectedKeys={selectedKey}
                             onSelect={onSelect}
-                            className="float-left font-bold h-12"
+                            className="font-bold h-12"
                             items={[
                                 {
                                     key: "/settings",
-                                    label: "Settings",
+                                    label: t("layout.SETTINGS"),
                                     icon: <SettingOutlined />
                                 }
                             ]}
                         />
-                        <div className="float-right pl-6 py-2">
+                    </div>
+                    <div>
+                        <ChangeLanguage />
+                    </div>
+                    <div className="py-2">
+                        <Tooltip title="Github">
                             <Link to="https://github.com/" target="_blank">
                                 <img src={GithubImg} className="h-8 w-8" />
                             </Link>
-                        </div>
+                        </Tooltip>
                     </div>
                 </div>
             </Header>
