@@ -9,6 +9,7 @@ func InitRoute(Router *gin.RouterGroup) gin.IRoutes {
 	{
 		baseRoute.GET("health", Health)
 		baseRoute.POST("github/sync", SyncFromGithub)
+		baseRoute.GET("repo", GetRepos)
 	}
 
 	return baseRoute
