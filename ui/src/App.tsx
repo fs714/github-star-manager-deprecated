@@ -1,9 +1,12 @@
+import { ThemeContextProvider } from "./context/theme"
 import AppRouter from "./router"
 
 export default function App(): JSX.Element {
   return (
     <div>
-      <AppRouter />
+      <ThemeContextProvider>
+        <AppRouter />
+      </ThemeContextProvider>
     </div>
   )
 }

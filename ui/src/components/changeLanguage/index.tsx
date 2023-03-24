@@ -7,7 +7,7 @@ export const languageMenuItem: MenuProps["items"] = [
     { label: "简体中文", key: "zh" },
 ]
 
-export default function ChangeLanguage(): JSX.Element {
+export default function ChangeLanguage({ innerStyle }: { innerStyle: string | undefined }): JSX.Element {
     const { i18n } = useTranslation()
 
     return (
@@ -23,7 +23,7 @@ export default function ChangeLanguage(): JSX.Element {
             }}
         >
             <a onClick={(e) => e.preventDefault()}>
-                <Space className="font-bold text-white/[.65] hover:text-white">
+                <Space className={innerStyle}>
                     {localLanguage === "en" ? "English" : "中文"}
                 </Space>
             </a>

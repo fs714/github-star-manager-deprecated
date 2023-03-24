@@ -1,5 +1,6 @@
 import ReactImg from "./react.svg"
 import VitImg from "./vite.svg"
-import GithubImg from "./github.svg"
+import GithubBlackImg from "./github-black.svg"
+import GithubWhiteImg from "./github-white.svg"
 
-export {ReactImg, VitImg, GithubImg}
+export {ReactImg, VitImg, GithubBlackImg, GithubWhiteImg}

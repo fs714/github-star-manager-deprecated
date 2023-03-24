@@ -3,4 +3,7 @@ export default {
     TAGS: "Tags",
     SETTINGS: "Settings",
     THEME_SETTING: "Theme Setting",
+    MENUSTYLE: "Menu Style",
+    DARK: "Dark",
+    LIGHT: "Light",
 }

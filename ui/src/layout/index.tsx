@@ -1,24 +1,33 @@
 import { Layout, Menu, Tooltip } from "antd";
 import { ProfileOutlined, BookOutlined, SettingOutlined } from "@ant-design/icons"
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ReactImg, GithubImg } from "../assets";
+import { useEffect, useMemo, useState } from "react";
+import { ReactImg, GithubBlackImg, GithubWhiteImg } from "../assets";
 import { useTranslation } from "react-i18next";
 import ChangeLanguage from "../components/changeLanguage";
 import Settings from "../components/setting";
+import { useThemeContext } from "../context/theme";
 
 
 const { Header, Content, Footer } = Layout
+
+export interface ILayoutStyle {
+    headerStyle?: string
+    changeLanguageStyle?: string
+}
 
 export default function AppLayout(): JSX.Element {
     const navigate = useNavigate()
     const location = useLocation()
     const [selectedKey, setSelectedKey] = useState<string[]>([])
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
+    const { theme } = useThemeContext()
+    const { menuStyle } = theme
 
     const { t } = useTranslation()
 
     useEffect(() => {
+        console.log(theme)
         if (location.pathname === "/") {
             setSelectedKey(["/repositories"])
         } else {
@@ -32,10 +41,25 @@ export default function AppLayout(): JSX.Element {
         }
     }
 
+    const layoutStyle: ILayoutStyle = useMemo((): ILayoutStyle => {
+        let headerStyle: ILayoutStyle["headerStyle"] = ""
+        let changeLanguageStyle: ILayoutStyle["changeLanguageStyle"] = ""
+
+        if (menuStyle === "light") {
+            headerStyle = "flex h-12 w-screen items-center justify-between px-6 leading-[3rem] bg-white"
+            changeLanguageStyle = "font-bold text-black hover:text-black"
+        } else {
+            headerStyle = "flex h-12 w-screen items-center justify-between px-6 leading-[3rem]"
+            changeLanguageStyle = "font-bold text-white/[.65] hover:text-white"
+        }
+
+        return { headerStyle, changeLanguageStyle }
+    }, [theme])
+
     return (
         <div>
             <Layout className="relative flex h-screen w-screen flex-col bg-gray-100">
-                <Header className="flex h-12 w-screen items-center justify-between px-6 leading-[3rem]">
+                <Header className={layoutStyle.headerStyle}>
                     <div className="flex justify-start">
                         <div className="flex items-center bg-inherit">
                             <Link to="/">
@@ -44,7 +68,7 @@ export default function AppLayout(): JSX.Element {
                         </div>
                         <div>
                             <Menu
-                                theme="dark"
+                                theme={menuStyle}
                                 mode="horizontal"
                                 selectedKeys={selectedKey}
                                 onSelect={onSelect}
@@ -67,7 +91,7 @@ export default function AppLayout(): JSX.Element {
                     <div className="flex justify-start">
                         <div>
                             <Menu
-                                theme="dark"
+                                theme={menuStyle}
                                 mode="horizontal"
                                 selectedKeys={selectedKey}
                                 onSelect={() => setShowDrawer(true)}
@@ -82,12 +106,12 @@ export default function AppLayout(): JSX.Element {
                             />
                         </div>
                         <div className="bg-inherit pr-6">
-                            <ChangeLanguage />
+                            <ChangeLanguage innerStyle={layoutStyle.changeLanguageStyle} />
                         </div>
                         <div className="flex items-center bg-inherit">
                             <Tooltip title="Github">
                                 <Link to="https://github.com/" target="_blank">
-                                    <img src={GithubImg} className="flex h-8 w-8" />
+                                    <img src={menuStyle === "light" ? GithubBlackImg : GithubWhiteImg} className="flex h-8 w-8" />
                                 </Link>
                             </Tooltip>
                         </div>
@@ -97,7 +121,7 @@ export default function AppLayout(): JSX.Element {
                     <Outlet />
                 </Content>
                 <Footer className="text-center mb-2 p-1 font-bold text-black/[.45]">
-                    Copyright © 2023 Fs714 Labs
+                    Copyright © 2023 by fs714
                 </Footer>
             </Layout>
             <Settings setShowDrawer={setShowDrawer} open={showDrawer} onClose={() => setShowDrawer(false)} />
