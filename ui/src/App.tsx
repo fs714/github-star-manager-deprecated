@@ -1,5 +1,5 @@
-import { ThemeContextProvider } from "./context/theme"
-import AppRouter from "./router"
+import { ThemeContextProvider } from './context/theme';
+import AppRouter from './router';
 
 export default function App(): JSX.Element {
   return (
@@ -8,5 +8,5 @@ export default function App(): JSX.Element {
         <AppRouter />
       </ThemeContextProvider>
     </div>
-  )
+  );
 }
