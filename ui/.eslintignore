@@ -1,0 +1,11 @@
+examples
+dist
+node_modules
+scripts
+src/assets
+
+tailwind.config.js
+postcss.config.js
+.prettierrc.js
+.eslintrc.js
+env.d.ts
